@@ -3,12 +3,10 @@ package ku.restaurant.controller;
 import ku.restaurant.entity.Restaurant;
 import ku.restaurant.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class restaurantController {
@@ -19,13 +17,28 @@ public class restaurantController {
         this.service = service;
     }
 
-    @GetMapping("/restaurant")
+    @GetMapping("/restaurants")
     public List<Restaurant> getAllRestaurant() {
         return service.getAll();
     }
 
-    @PostMapping("/restaurant")
+    @GetMapping("/restaurants/{id}")
+    public Restaurant getRestaurantById(@PathVariable UUID id) {
+        return service.getRestaurantById(id);
+    }
+
+    @PostMapping("/restaurants")
     public Restaurant create(@RequestBody Restaurant restaurant) {
         return service.create(restaurant);
+    }
+
+    @PutMapping("/restaurants")
+    public Restaurant update(@RequestBody Restaurant restaurant) {
+        return service.update(restaurant);
+    }
+
+    @DeleteMapping("/restaurants/{id}")
+    public Restaurant delete(@PathVariable UUID id) {
+        return service.delete(id);
     }
 }
