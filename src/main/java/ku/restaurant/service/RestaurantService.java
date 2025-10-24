@@ -65,7 +65,7 @@ public class RestaurantService {
         return record;
     }
 
-    public Restaurant getRestaurantByName(String name) {
+    public List<Restaurant> getRestaurantByName(String name) {
         return repository.findByName(name);
     }
 

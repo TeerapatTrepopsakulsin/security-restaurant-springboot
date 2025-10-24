@@ -45,7 +45,7 @@ public class restaurantController {
     }
 
     @GetMapping("/restaurants/name/{name}")
-    public Restaurant getRestaurantByName(@PathVariable String name) {
+    public List<Restaurant> getRestaurantByName(@PathVariable String name) {
         return service.getRestaurantByName(name);
     }
 
