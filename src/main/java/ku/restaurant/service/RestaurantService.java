@@ -5,6 +5,8 @@ import ku.restaurant.entity.Restaurant;
 import ku.restaurant.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 
 import java.time.Instant;
@@ -26,6 +28,10 @@ public class RestaurantService {
 
     public List<Restaurant> getAll() {
         return repository.findAll();
+    }
+
+    public Page<Restaurant> getRestaurantsPage(PageRequest pageRequest) {
+        return repository.findAll(pageRequest);
     }
 
     public Restaurant getRestaurantById(UUID id) {

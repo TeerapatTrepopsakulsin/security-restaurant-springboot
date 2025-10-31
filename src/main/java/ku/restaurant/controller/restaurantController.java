@@ -5,6 +5,11 @@ import ku.restaurant.entity.Restaurant;
 import ku.restaurant.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.util.StringUtils;
+
 
 import java.util.List;
 import java.util.UUID;
@@ -20,8 +25,15 @@ public class restaurantController {
     }
 
     @GetMapping("/restaurants")
-    public List<Restaurant> getAllRestaurant() {
-        return service.getAll();
+    public Page<Restaurant> getAllRestaurants(
+            @RequestParam(value = "offset", required = false) Integer offset,
+            @RequestParam(value = "pageSize", required = false) Integer pageSize,
+            @RequestParam(value = "sortBy", required = false) String sortBy) {
+        if(null == offset) offset = 0;
+        if(null == pageSize) pageSize = 10;
+        if(StringUtils.isEmpty(sortBy)) sortBy ="name";
+
+        return service.getRestaurantsPage(PageRequest.of(offset, pageSize, Sort.by(sortBy)));
     }
 
     @GetMapping("/restaurants/{id}")
