@@ -6,10 +6,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface RestaurantRepository
         extends JpaRepository<Restaurant, UUID> {
-    List<Restaurant> findByName(String name);
+    boolean existsByName(String name);
+    Optional<Restaurant> findByName(String name);
     List<Restaurant> findByLocation(String location);
 }

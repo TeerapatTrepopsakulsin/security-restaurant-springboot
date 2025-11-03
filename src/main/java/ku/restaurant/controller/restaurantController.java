@@ -9,7 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.util.StringUtils;
-
+import jakarta.validation.Valid;
 
 import java.util.List;
 import java.util.UUID;
@@ -42,7 +42,7 @@ public class restaurantController {
     }
 
     @PostMapping("/restaurants")
-    public Restaurant create(@RequestBody RestaurantRequest restaurant) {
+    public Restaurant create(@Valid @RequestBody RestaurantRequest restaurant) {
         return service.create(restaurant);
     }
 
@@ -57,7 +57,7 @@ public class restaurantController {
     }
 
     @GetMapping("/restaurants/name/{name}")
-    public List<Restaurant> getRestaurantByName(@PathVariable String name) {
+    public Restaurant getRestaurantByName(@PathVariable String name) {
         return service.getRestaurantByName(name);
     }
 

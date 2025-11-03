@@ -13,7 +13,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -33,31 +35,26 @@ public class AuthenticationController {
 
 
     @PostMapping("/login")
-    public String authenticateUser(@RequestBody LoginRequest request) {
+    public ResponseEntity<String> authenticateUser(@Valid @RequestBody LoginRequest request) {
 
 
-        Authentication authentication =
-                authenticationManager.authenticate(
-                        new UsernamePasswordAuthenticationToken(
-                                request.getUsername(),
-                                request.getPassword()
-                        )
-                );
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getUsername(),
+                        request.getPassword()
+                )
+        );
         UserDetails userDetails =
                 (UserDetails) authentication.getPrincipal();
-        return jwtUtils.generateToken(userDetails.getUsername());
+        return ResponseEntity.ok(jwtUtils.generateToken(userDetails.getUsername()));
     }
 
 
     @PostMapping("/signup")
-    public String registerUser(@RequestBody SignupRequest request) {
-
-
+    public ResponseEntity<String> registerUser(@Valid @RequestBody SignupRequest request) {
         if (userService.userExists(request.getUsername()))
-            return "Error: Username is already taken!";
-
-
+            return new ResponseEntity<>("Error: Username is already taken!", HttpStatus.BAD_REQUEST);
         userService.createUser(request);
-        return "User registered successfully!";
+        return ResponseEntity.ok("User registered successfully!");
     }
 }
