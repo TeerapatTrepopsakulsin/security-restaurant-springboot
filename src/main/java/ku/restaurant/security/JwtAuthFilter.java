@@ -4,7 +4,10 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import ku.restaurant.controller.GlobalExceptionHandler;
 import ku.restaurant.service.CustomUserDetailsService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +22,7 @@ import java.io.IOException;
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
 
+    Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @Autowired
     private JwtUtil jwtUtils;
@@ -67,7 +71,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             }
             filterChain.doFilter(request, response);
         } catch (Exception e) {
-            System.out.println("Cannot set user authentication: " + e);
+            logger.error("Cannot set user authentication: {}", e.getMessage());
         }
     }
 }
