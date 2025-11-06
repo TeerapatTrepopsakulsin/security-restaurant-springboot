@@ -34,8 +34,13 @@ public class AuthenticationEventListener {
     @EventListener
     public void onSuccess(AuthenticationSuccessEvent event) {
         User user = (User) event.getAuthentication().getPrincipal();
-        logger.info(user.getUsername() + " has successfully logged in at "
-                + Instant.now());
+        String username = user.getUsername();
+
+        ku.restaurant.entity.User userEntity = userService.getUser(username);
+        String role = userEntity.getRole();
+
+        logger.info(username + " with role: " + role
+                + " has successfully logged in at " + Instant.now());
     }
 
 
