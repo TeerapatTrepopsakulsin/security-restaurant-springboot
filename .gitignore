@@ -33,4 +33,10 @@ build/
 
 ### VS Code ###
 .vscode/
-.env
+
+### Postman ###
+.postman/
+postman/
+
+### Self-signed Certificate ###
+src/main/resources/keystore.p12
